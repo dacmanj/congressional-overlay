@@ -6,27 +6,27 @@
 	<style>
 		body { margin: 0; padding: 0 }
 	</style>
-	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&key=AIzaSyCMRWrZY6uiHkfPU27wgT2y1u_M01FQ8Uo&callback=initialize"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript">
 		var state = "";
 		var district = "";
-	
+
 		var map;
-		
+
 		function initialize() {
 			var myOptions = {
-				
+
 				zoom: 4,
 				center: new google.maps.LatLng(38, -96),
-				
+
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
 				panControl: false,
 				zoomControl: true,
 				mapTypeControl: false,
 				scaleControl: true,
 				streetViewControl: false,
-				styles: 			
+				styles:
 					[
 					  {
 						"featureType": "water",
@@ -66,13 +66,13 @@
 						  { "visibility": "off" }
 						]
 					  }
-					]			
+					]
 				};
-				
-			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);				
-			
-			
-			
+
+			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+
+
 			var layer = "cd-2012";
 			if (state && district)
 				layer += "/" + state.toLowerCase() + "-" + (district < 10 ? "0" : "") + district;
@@ -84,19 +84,19 @@
 			map.setZoom(5);
 			map.setCenter(new google.maps.LatLng(38, -96));
 
-			
+
 		};
-		
+
 		var tilesizeshift = 0; // 0=256, 1=use 512px tiles instead of 256
-		
+
 		// Use PNG or GIF tiles? IE8 and earlier don't support transparent PNGs properly,
 		// so use opaque GIF tiles but set the transparency on the map layer appropriately.
 		var tileimgformat = 'png';
 		if (navigator.appName == 'Microsoft Internet Explorer' && new RegExp("MSIE [678]").exec(navigator.userAgent)) tileimgformat = 'gif';
-		
+
 		function createDistrictsOverlay(layer) {
 			var tileimgsize = 256 << tilesizeshift;
-		
+
 			// Apply the map layer.
 			var overlay = new google.maps.ImageMapType({
 			  getTileUrl: function(coord, zoom) {
@@ -108,10 +108,10 @@
 			  maxZoom: 28,
 			  opacity: tileimgformat == "png" ? .85 : .65
 			});
-			
+
 			map.overlayMapTypes.clear();
 			map.overlayMapTypes.insertAt(0, overlay);
-			
+
 			// For IE8 and earlier, the layer above only applies outlines and labels --- at high opacity.
 			// Apply a second layer for the boundary fill color --- at low opacity.
 			if (tileimgformat != "png") {
@@ -125,7 +125,7 @@
 				  maxZoom: 28,
 				  opacity: .15
 				});
-				
+
 				map.overlayMapTypes.insertAt(0, overlay2);
 			}
 		}
@@ -135,7 +135,6 @@
 </head>
 <body onload="initialize()">
 	<div id="map_canvas" style="width: 100%; height: 100%"> </div>
-	
+
 </body>
 </html>
-
